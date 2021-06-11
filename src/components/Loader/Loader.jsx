@@ -1,0 +1,17 @@
+import React from 'react';
+
+const Loader = ({ isLoading, children }) => {
+  if (!isLoading) {
+    return <>{children}</>;
+  }
+
+  return (
+    <div className="d-flex justify-content-center m-3">
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+};
+
+export default Loader;

@@ -1,0 +1,1 @@
+export { default as fetchPosts } from './posts/fetchPosts';
