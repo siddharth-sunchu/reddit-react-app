@@ -1,7 +1,4 @@
 import { fetchPosts } from 'api';
-// import { chuckPosts } from 'utils';
-
-import { mockDataAPI } from '../../mocks/data';
 
 export const initialState = {
   error: false,
@@ -70,9 +67,7 @@ export const fetchRecentPosts = () => async (dispatch, getState) => {
     const { search, posts } = getState();
     const { searchTerm } = search;
     const { pages, afterId, pageNum } = posts;
-    // const response = mockDataAPI[searchTerm];
     if (!pages[pageNum] || afterId === null) {
-      // const response = mockDataAPI[`data${pageNum}`];
       let response = await fetchPosts(searchTerm, afterId);
       response = response.data;
       dispatch(fetchSuccess());
@@ -84,39 +79,37 @@ export const fetchRecentPosts = () => async (dispatch, getState) => {
   }
 };
 
-export const fetchNextPage = () => async (dispatch, getState) => {
-  try {
-    dispatch(isLoading());
-    const { search, posts } = getState();
-    const { resultTerm } = search;
-    const { pages, afterId, pageNum } = posts;
+// export const fetchNextPage = () => async (dispatch, getState) => {
+//   try {
+//     dispatch(isLoading());
+//     const { search, posts } = getState();
+//     const { resultTerm } = search;
+//     const { pages, afterId, pageNum } = posts;
 
-    if (!pages[pageNum]) {
-      // const response = mockDataAPI[`data${pageNum}`];
-      let response = await fetchPosts(resultTerm, afterId);
-      response = response.data;
-      dispatch(fetchSuccess());
-      dispatch(setRecentPosts(response.children, pageNum));
-      dispatch(setAfterID(response.after));
-    }
-  } catch (error) {
-    dispatch(fetchError());
-  }
-};
+//     if (!pages[pageNum]) {
+//       // const response = mockDataAPI[`data${pageNum}`];
+//       let response = await fetchPosts(resultTerm, afterId);
+//       response = response.data;
+//       dispatch(fetchSuccess());
+//       dispatch(setRecentPosts(response.children, pageNum));
+//       dispatch(setAfterID(response.after));
+//     }
+//   } catch (error) {
+//     dispatch(fetchError());
+//   }
+// };
 
-export const fetchPrevPage = () => (dispatch, getState) => {
-  try {
-    // dispatch(isLoading());
-    const { posts } = getState();
-    const { pages, pageNum } = posts;
-    const response = mockDataAPI[`data${pageNum}`];
-    // dispatch(fetchSuccess());
-    dispatch(setRecentPosts(response.children, pageNum));
-    dispatch(setAfterID(response.after));
-  } catch (error) {
-    dispatch(fetchError());
-  }
-};
+// export const fetchPrevPage = () => (dispatch, getState) => {
+//   try {
+//     // dispatch(isLoading());
+//     const { posts } = getState();
+//     const { pages, pageNum } = posts;
+//     dispatch(setRecentPosts(response.children, pageNum));
+//     dispatch(setAfterID(response.after));
+//   } catch (error) {
+//     dispatch(fetchError());
+//   }
+// };
 
 // export const fetchRecentPosts = () => async (dispatch, getState) => {
 //   try {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const PageNav = ({ isSuccess, changePrev, changeNext, pageNum }) => {
   if (isSuccess) {
@@ -18,6 +19,18 @@ const PageNav = ({ isSuccess, changePrev, changeNext, pageNum }) => {
   } else {
     return null;
   }
+};
+
+PageNav.defaultProps = {
+  isSuccess: false,
+  pageNum: 1
+};
+
+PageNav.propTypes = {
+  isLoading: PropTypes.bool,
+  changePrev: PropTypes.func.isRequired,
+  changeNext: PropTypes.func.isRequired,
+  pageNum: PropTypes.number
 };
 
 export default PageNav;

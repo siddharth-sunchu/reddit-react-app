@@ -11,8 +11,7 @@ const PostCards = ({ postData, resultTerm }) => {
           eachPost.data;
         return (
           <PostCard
-          // key={id }
-            key={id + Math.random()}
+            key={id}
             title={title}
             titleUrl={url}
             commentsNumber={num_comments}
