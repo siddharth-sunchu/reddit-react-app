@@ -11,29 +11,17 @@ const PostsContainer = () => {
   const { pages, pageNum, loading, success } = postStore;
   const { resultTerm } = searchStore;
 
-  const { changePageNum, fetchRecentPosts } = bindActionCreators(
+  const { prevPage, nextPage } = bindActionCreators(
     { ...postReducer },
     dispatch
   );
 
-  const changePrev = () => {
-    if (pageNum !== 1) {
-      changePageNum(false);
-    }
-  };
-
-  const changeNext = () => {
-    if (pages[pageNum]) {
-      changePageNum(true);
-      fetchRecentPosts();
-    }
-  };
   return (
     <Loader isLoading={loading}>
       <PageNav
         isSuccess={success}
-        changePrev={changePrev}
-        changeNext={changeNext}
+        changePrev={prevPage}
+        changeNext={nextPage}
         pageNum={pageNum}
       />
       <PostCards postData={pages[pageNum]} resultTerm={resultTerm} />

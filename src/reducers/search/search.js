@@ -1,5 +1,3 @@
-import { fetchPosts } from 'api';
-
 export const initialState = {
   searchTerm: '',
   resultTerm: '',

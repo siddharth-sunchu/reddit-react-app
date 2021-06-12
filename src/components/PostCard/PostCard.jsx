@@ -54,7 +54,7 @@ PostCard.propTypes = {
   commentsNumber: PropTypes.number.isRequired,
   upVotes: PropTypes.number.isRequired,
   downVotes: PropTypes.number.isRequired,
-  created: PropTypes.instanceOf(Date).isRequired,
+  created: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired
 };
 

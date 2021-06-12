@@ -1,4 +1,5 @@
 import { fetchPosts } from 'api';
+import { filterExtraPosts } from 'utils';
 
 export const initialState = {
   error: false,
@@ -29,12 +30,22 @@ export const subtractPageNum = () => {
   return { type: SUBTRACT_PAGE_NUM };
 };
 
-export const changePageNum = (changeValue) => (dispatch) => {
-  if (changeValue) {
-    return dispatch(addPageNum());
+export const nextPage = () => (dispatch, getState) => {
+  dispatch(addPageNum());
+  const { posts } = getState();
+  const { pageNum, pages } = posts;
+  if(!pages[pageNum]) {
+    dispatch(fetchRecentPosts());
   }
-  return dispatch(subtractPageNum());
 };
+
+export const prevPage = () => (dispatch, getState) => {
+  const { posts } = getState();
+  const { pageNum } = posts;
+  if (pageNum !== 1) {
+    return dispatch(subtractPageNum());
+  }
+}
 
 // ACTIONS
 export const setRecentPosts = (posts, pageNum) => {
@@ -69,7 +80,8 @@ export const fetchRecentPosts = () => async (dispatch, getState) => {
     const { pages, afterId, pageNum } = posts;
     if (!pages[pageNum] || afterId === null) {
       let response = await fetchPosts(searchTerm, afterId);
-      response = response.data;
+      // Handling Sticked Post
+      response = filterExtraPosts(response.data);
       dispatch(fetchSuccess());
       dispatch(setRecentPosts(response.children, pageNum));
       dispatch(setAfterID(response.after));
@@ -78,58 +90,6 @@ export const fetchRecentPosts = () => async (dispatch, getState) => {
     return dispatch(fetchError());
   }
 };
-
-// export const fetchNextPage = () => async (dispatch, getState) => {
-//   try {
-//     dispatch(isLoading());
-//     const { search, posts } = getState();
-//     const { resultTerm } = search;
-//     const { pages, afterId, pageNum } = posts;
-
-//     if (!pages[pageNum]) {
-//       // const response = mockDataAPI[`data${pageNum}`];
-//       let response = await fetchPosts(resultTerm, afterId);
-//       response = response.data;
-//       dispatch(fetchSuccess());
-//       dispatch(setRecentPosts(response.children, pageNum));
-//       dispatch(setAfterID(response.after));
-//     }
-//   } catch (error) {
-//     dispatch(fetchError());
-//   }
-// };
-
-// export const fetchPrevPage = () => (dispatch, getState) => {
-//   try {
-//     // dispatch(isLoading());
-//     const { posts } = getState();
-//     const { pages, pageNum } = posts;
-//     dispatch(setRecentPosts(response.children, pageNum));
-//     dispatch(setAfterID(response.after));
-//   } catch (error) {
-//     dispatch(fetchError());
-//   }
-// };
-
-// export const fetchRecentPosts = () => async (dispatch, getState) => {
-//   try {
-//     dispatch(isLoading());
-//     const { search, posts } = getState();
-//     const { searchTerm, pageNum } = search;
-//     const { pages, afterId } = posts;
-//     const currentList = pages[pageNum];
-//     // const postList = await fetchPosts(searchTerm, afterId);
-//     const postList = await fetchPosts(searchTerm);
-//     const { data } = postList;
-//     const pageHashMap = chuckPosts(data.children);
-//     console.log(pageHashMap)
-//     setBeforeAndAfterIds(data, dispatch);
-//     return dispatch(setRecentPosts(data, pageNum, pageHashMap));
-//     // return dispatch(setRecentPosts(data, pageNum));
-//   } catch (error) {
-//     return dispatch(fetchError);
-//   }
-// };
 
 const posts = (state = initialState, action) => {
   switch (action.type) {

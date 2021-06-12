@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
 import * as postReducer from 'reducers/posts/posts';
 import * as searchReducer from 'reducers/search/search';
 import { SearchButton, SearchInput } from 'components';
 
-const SearchBarContainer = ({}) => {
+const SearchBarContainer = () => {
   const searchStore = useSelector((state) => state.search);
   const { searchTerm } = searchStore;
   const dispatch = useDispatch();
