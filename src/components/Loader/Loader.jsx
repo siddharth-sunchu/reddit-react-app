@@ -16,7 +16,6 @@ const Loader = ({ isLoading, children }) => {
 };
 
 // import PropTypes from 'prop-types';
-
 Loader.defaultProps = {
   isLoading: false
 };

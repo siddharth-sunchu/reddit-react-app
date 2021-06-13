@@ -12,8 +12,8 @@ describe('<PostCard />', () => {
     const wrapper = mount(<PostCard {...mockProps}/>);
     const upvoteText = wrapper.find('.card-body > p > span');
     expect(wrapper.exists()).toBe(true);
-    expect(' 1   up vote').toEqual(upvoteText.first().text());
-    expect(' 2  down votes').toEqual(upvoteText.last().text());
+    expect("vote").toEqual(upvoteText.first().text().split(' ').pop());
+    expect('votes').toEqual(upvoteText.last().text().split(' ').pop());
   });
 
   it('Passing upvote count as 1', () => {
@@ -22,7 +22,7 @@ describe('<PostCard />', () => {
   };
   const wrapper = mount(<PostCard {...mockProps}/>);
   const upvoteText = wrapper.find('.card-body > p > span');
-  expect(' 2   up votes').toEqual(upvoteText.first().text());
-  expect(' 1  down vote').toEqual(upvoteText.last().text());
+  expect("votes").toEqual(upvoteText.first().text().split(' ').pop());
+  expect('vote').toEqual(upvoteText.last().text().split(' ').pop());
   });
 });

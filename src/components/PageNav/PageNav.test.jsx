@@ -4,13 +4,12 @@ import { PageNav } from 'components';
 
 describe('<PageNav />', () => {
   it('Renders', () => {
-    const wrapper = mount(<PageNav isSuccess={true}/>);
+    const wrapper = mount(<PageNav isSuccess={true} changePrev={jest.fn()} changeNext={jest.fn()} />);
     expect(wrapper.exists()).toBe(true);
   });
 
   it('Renders Empty with is Success flag false', () => {
-    const wrapper = mount(<PageNav isLoading={false}/>);
-    console.log(wrapper)
+    const wrapper = mount(<PageNav isSuccess={false} changePrev={jest.fn()} changeNext={jest.fn()} />);
     expect(wrapper.isEmptyRender()).toBe(true);
   });
 });

@@ -10,14 +10,14 @@ describe('Fetch Post API', () => {
       return Promise.resolve({
         json() {
           return {
-            ...mockDataAPI['1']
+            ...mockDataAPI['2']
           };
         }
       });
     });
 
     const fetchResponse = await fetchPosts('test');
-    expect(fetchResponse.after).toBe(2);
+    expect(fetchResponse.after).toBe(3);
     expect(fetchResponse.children).toHaveLength(10);
   });
 
@@ -27,14 +27,14 @@ describe('Fetch Post API', () => {
       return Promise.resolve({
         json() {
           return {
-            ...mockDataAPI['1']
+            ...mockDataAPI['2']
           };
         }
       });
     });
 
     const fetchResponse = await fetchPosts('test', 1);
-    expect(fetchResponse.after).toBe(2);
+    expect(fetchResponse.after).toBe(3);
     expect(fetchResponse.children).toHaveLength(10);
   });
 
