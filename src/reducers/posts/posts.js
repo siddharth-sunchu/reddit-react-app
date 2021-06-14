@@ -19,6 +19,7 @@ const SET_AFTER_ID = 'SET_AFTER_ID';
 
 const ADD_PAGE_NUM = 'ADD_PAGE_NUM';
 const SUBTRACT_PAGE_NUM = 'SUBTRACT_PAGE_NUM';
+const CLEAR_POSTS = 'CLEAR_POSTS';
 
 export const addPageNum = () => {
   return { type: ADD_PAGE_NUM };
@@ -49,11 +50,19 @@ export const setAfterID = (id) => {
   return { type: SET_AFTER_ID, payload: id };
 };
 
+export const clearPosts = () => {
+  return { type: CLEAR_POSTS };
+};
+
+export const clearOldPosts = () => (dispatch) =>{
+  return dispatch(clearPosts());
+};
+
 export const nextPage = () => (dispatch, getState) => {
   dispatch(addPageNum());
   const { posts } = getState();
   const { pageNum, pages } = posts;
-  if(!pages[pageNum]) {
+  if (!pages[pageNum]) {
     dispatch(fetchRecentPosts());
   }
 };
@@ -64,7 +73,7 @@ export const prevPage = () => (dispatch, getState) => {
   if (pageNum !== 1) {
     return dispatch(subtractPageNum());
   }
-}
+};
 
 export const fetchRecentPosts = () => async (dispatch, getState) => {
   try {
@@ -128,6 +137,15 @@ const posts = (state = initialState, action) => {
       return {
         ...state,
         pageNum: state.pageNum === 1 ? 1 : state.pageNum - 1
+      };
+    case CLEAR_POSTS:
+      return {
+        error: false,
+        success: false,
+        loading: false,
+        pages: { 1: [] },
+        afterId: null,
+        pageNum: 1
       };
     default:
       return state;

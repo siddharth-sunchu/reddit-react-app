@@ -9,18 +9,21 @@ const SearchBarContainer = () => {
   const searchStore = useSelector((state) => state.search);
   const { searchTerm } = searchStore;
   const dispatch = useDispatch();
-  const { fetchRecentPosts, onChangeInputValue, changeResultTerm } = bindActionCreators(
+  const { fetchRecentPosts, onChangeInputValue, changeResultTerm, clearOldPosts } = bindActionCreators(
     { ...postReducer, ...searchReducer },
     dispatch
   );
 
   const onClickSearch = (event) => {
     event.preventDefault();
+    clearOldPosts();
     fetchRecentPosts(searchTerm);
     changeResultTerm(searchTerm);
   };
 
   const onChangeInput = (event) => {
+    clearOldPosts();
+    changeResultTerm('')
     onChangeInputValue(event.target.value);
   };
 

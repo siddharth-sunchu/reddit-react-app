@@ -9,7 +9,9 @@ import reducer, {
   nextPage,
   prevPage,
   fetchRecentPosts,
-  initialState
+  initialState,
+  clearPosts,
+  clearOldPosts
 } from './posts';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -52,10 +54,25 @@ describe('Reducers - Posts', () => {
       const actionObj = setAfterID(1);
       expect(actionObj).toEqual({ type: 'SET_AFTER_ID', payload: 1 });
     });
+
+    it('clearPosts', () => {
+      const actionObj = clearPosts();
+      expect(actionObj).toEqual({ type: 'CLEAR_POSTS' });
+    });
   });
 
   describe('Action creators and middleware', () => {
     const mockReduxStore = configureMockStore([thunk]);
+
+    it('clearOldPosts', async () => {
+      const store = mockReduxStore({
+        posts: mockPostStore
+      });
+
+      await store.dispatch(clearOldPosts());
+      const expectedActions = [{ type: 'CLEAR_POSTS' }];
+      expect(store.getActions()).toEqual(expectedActions);
+    });
 
     describe('nextPage', () => {
       it('without new page', async () => {
@@ -172,6 +189,11 @@ describe('Reducers - Posts', () => {
   describe('Reducer', () => {
     it('default state', () => {
       const defaultState = reducer(undefined, {});
+      expect(defaultState).toEqual(initialState);
+    });
+
+    it('CLEAR_POSTS', () => {
+      const defaultState = reducer({...initialState}, { type: 'CLEAR_POSTS' });
       expect(defaultState).toEqual(initialState);
     });
 
