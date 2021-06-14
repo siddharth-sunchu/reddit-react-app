@@ -45,9 +45,9 @@ describe('Fetch Post API', () => {
     });
     try {
       const fetchResponse = await fetchPosts('test');
-      console.log(fetchResponse, '*****TESTING******');
       expect(fetchResponse.message).toEqual('Testing');
     } catch (error) {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(error.message).toEqual('Testing');
     }
   });

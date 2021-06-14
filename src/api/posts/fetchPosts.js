@@ -1,4 +1,4 @@
-const fetchPosts = async (subRedditValue, id) => {
+export const fetchPosts = async (subRedditValue, id) => {
 
     const API_URL = 'https://www.reddit.com/r/';
     try {
@@ -9,6 +9,4 @@ const fetchPosts = async (subRedditValue, id) => {
         throw error;
     }
 };
-
-export default fetchPosts;
 

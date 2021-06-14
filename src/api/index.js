@@ -1,1 +1,1 @@
-export { default as fetchPosts } from './posts/fetchPosts';
+export { fetchPosts } from './posts/fetchPosts';

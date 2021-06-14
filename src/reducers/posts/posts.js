@@ -5,7 +5,6 @@ export const initialState = {
   error: false,
   success: false,
   loading: false,
-  currentPosts: [],
   pages: { 1: [] },
   afterId: null,
   pageNum: 1
@@ -16,7 +15,6 @@ const FETCH_POSTS = 'FETCH_POSTS';
 const FETCH_ERROR = 'FETCH_ERROR';
 const FETCH_SUCCESS = 'FETCH_SUCCESS';
 const IS_LOADING = 'IS_LOADING';
-const SET_BEFORE_ID = 'SET_BEFORE_ID';
 const SET_AFTER_ID = 'SET_AFTER_ID';
 
 const ADD_PAGE_NUM = 'ADD_PAGE_NUM';
@@ -29,23 +27,6 @@ export const addPageNum = () => {
 export const subtractPageNum = () => {
   return { type: SUBTRACT_PAGE_NUM };
 };
-
-export const nextPage = () => (dispatch, getState) => {
-  dispatch(addPageNum());
-  const { posts } = getState();
-  const { pageNum, pages } = posts;
-  if(!pages[pageNum]) {
-    dispatch(fetchRecentPosts());
-  }
-};
-
-export const prevPage = () => (dispatch, getState) => {
-  const { posts } = getState();
-  const { pageNum } = posts;
-  if (pageNum !== 1) {
-    return dispatch(subtractPageNum());
-  }
-}
 
 // ACTIONS
 export const setRecentPosts = (posts, pageNum) => {
@@ -64,13 +45,26 @@ export const fetchSuccess = () => {
   return { type: FETCH_SUCCESS };
 };
 
-export const setBeforeID = (id) => {
-  return { type: SET_BEFORE_ID, payload: id };
-};
-
 export const setAfterID = (id) => {
   return { type: SET_AFTER_ID, payload: id };
 };
+
+export const nextPage = () => (dispatch, getState) => {
+  dispatch(addPageNum());
+  const { posts } = getState();
+  const { pageNum, pages } = posts;
+  if(!pages[pageNum]) {
+    dispatch(fetchRecentPosts());
+  }
+};
+
+export const prevPage = () => (dispatch, getState) => {
+  const { posts } = getState();
+  const { pageNum } = posts;
+  if (pageNum !== 1) {
+    return dispatch(subtractPageNum());
+  }
+}
 
 export const fetchRecentPosts = () => async (dispatch, getState) => {
   try {
@@ -98,7 +92,6 @@ const posts = (state = initialState, action) => {
         ...state,
         loading: false,
         error: false,
-        currentPosts: action.payload.posts,
         pages: {
           ...state.pages,
           [action.payload.pageNum]: action.payload.posts
@@ -121,12 +114,6 @@ const posts = (state = initialState, action) => {
         ...state,
         loading: true
       };
-    // case SET_BEFORE_ID:
-    //   return {
-    //     ...state,
-    //     beforeId: action.payload
-    //   };
-
     case SET_AFTER_ID:
       return {
         ...state,

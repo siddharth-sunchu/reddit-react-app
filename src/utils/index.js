@@ -14,7 +14,7 @@ export const chuckPosts = (myArray) => {
 
 // Handling Sticked Post
 export const filterExtraPosts = (response) => {
-    if(response.children.length !== 10) {
+    if(response.children.length > 10) {
         response.children = response.children.slice(0, 10);
         response.after = response.children[response.children.length - 1].data.name;
         return response;
