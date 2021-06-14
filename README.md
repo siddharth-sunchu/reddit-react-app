@@ -18,7 +18,9 @@ You will also see any lint errors in the console.
 
 ### `npm test` - it will run the test scripts and shows the coverage as well.
 
-####### Sticked Posts
+## Extras
+
+- Sticked Posts
 For some of the the sub reddit's, the api sends some sticked post which has a flag in the response, so to show only 10 post at a time, I am filtering the response and removing the rest of the data.
 
 ## Another Approach
